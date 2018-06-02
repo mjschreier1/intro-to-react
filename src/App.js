@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import uuid from 'uuid';
 import Projects from './Components/Projects';
 import './App.css';
 import AddProject from './Components/AddProject';
@@ -15,14 +16,17 @@ class App extends Component {
 		this.setState({
 			projects: [
 				{
+					id: uuid.v4(),
 					title: 'Business Website',
 					category: 'Web Design'
 				},
 				{
+					id: uuid.v4(),
 					title: 'Social App',
 					category: 'Mobile Development'
 				},
 				{
+					id: uuid.v4(),
 					title: 'E-Commerce Shopping Cart',
 					category: 'Web Design'
 				} 
@@ -33,14 +37,20 @@ class App extends Component {
 	handleAddProject(project) {
 		let projects = this.state.projects;
 		projects.push(project);
-		this.setState({ project: projects });
+		this.setState({ projects: projects });
+	}
+
+	handleDeleteProject(id) {
+		let projects = this.state.projects;
+		projects = projects.filter(project => id !== project.id);
+		this.setState({ projects: projects });
 	}
 
   render() {
     return (
       <div className="App">
 				<AddProject addProject={ this.handleAddProject.bind(this) } />
-				<Projects projects={ this.state.projects } />
+				<Projects onDelete={ this.handleDeleteProject.bind(this) } projects={ this.state.projects } />
       </div>
     );
   }
